@@ -40,4 +40,5 @@ A [ADR-0004](0004-async-batch-processing-with-rq.md) colocou o worker do RQ em c
 - `docker compose up --build --wait` sobe a stack inteira, e o CI garante que ela continua funcionando.
 - Não é preciso ter o Docker local funcionando para validar mudanças de infraestrutura: o CI faz isso.
 - As imagens base usam tags (`python:3.12-slim-trixie`, `uv:0.13.0`, `redis:8.2-alpine`), não digests. Isso é reprodutível o bastante para o MVP. Para produção, o próximo passo é fixar por digest e atualizar com o Dependabot.
+  - *Atualização (Fase 9):* as imagens passaram a ser fixadas por digest (`tag@sha256:…`), e o Dependabot propõe as atualizações.
 - A API e o worker sempre têm as mesmas dependências. Se um dia o worker precisar de algo pesado (ex.: OCR para PDF), vale separar as imagens.
