@@ -5,7 +5,9 @@ description = "Asynchronous pipeline for auditing NFS-e invoices and tax complia
 readme = "README.md"
 authors = [{ name = "Guilherme Scarpini", email = "guigabimry@gmail.com" }]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pydantic>=2.11",
+]
 
 [dependency-groups]
 dev = [
