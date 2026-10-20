@@ -1,5 +1,7 @@
 # Roadmap do MVP
 
+> Status atual de cada fase e próximos passos: [NEXT_STEPS.md](NEXT_STEPS.md).
+
 Plano de implementação em fases. Ordem escolhida: **de dentro para fora** — primeiro o núcleo de domínio (modelos, extração, regras), sem I/O; a infraestrutura (API, fila, Docker) vem por último.
 
 ## Fluxo alvo

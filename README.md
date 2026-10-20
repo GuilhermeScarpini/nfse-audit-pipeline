@@ -1,27 +1,69 @@
 # NFS-e Audit Pipeline
 
-Asynchronous pipeline for auditing Brazilian service invoices (NFS-e) and checking tax compliance.
+Asynchronous pipeline that audits Brazilian service invoices (NFS-e, national layout) against **tax rules versioned by effective date**, covering the 2026–2027 tax reform transition (IBS/CBS replacing PIS/COFINS).
 
-> 🚧 Work in progress — portfolio project.
+> 🚧 Portfolio project, work in progress. **All data is synthetic.** Current status and next steps: [`docs/NEXT_STEPS.md`](docs/NEXT_STEPS.md).
 
 ## What it does
 
-1. **Batch ingestion** — a FastAPI endpoint receives batches of NFS-e XML files and enqueues them on Redis; a worker processes them. Each batch gets an ID for status tracking.
-2. **Structured extraction** — parses XML in the national NFS-e standard into Pydantic models.
-3. **Deterministic rule engine** — validates ISS and federal withholdings (IRRF, PIS/COFINS/CSLL) using tax tables versioned by effective date, so each invoice is checked against the rules in force on its competence date.
-4. **Auditable reports** — JSON and Excel output listing, per invoice, every rule checked, expected value, found value and status (`ok` / `divergent`).
+```
+POST /batches (XML files) ──► shared volume ──► Redis queue (batch id only) ──► worker
+                                                                                  │
+GET /batches/{id}          ◄── status in Redis ◄──────────────────────────────────┤
+GET /batches/{id}/report   ◄── JSON / Excel report ◄── extract → rules → report ◄─┘
+```
+
+1. **Batch ingestion.** FastAPI receives a batch of NFS-e XMLs, stores them, and enqueues **only the batch id** (claim check pattern). The response is `202 Accepted` with a batch id. `Idempotency-Key` makes retries safe.
+2. **Extraction.** National NFS-e XML (layout v1.01) is parsed into Pydantic models with hardened parsing: any DOCTYPE is rejected, which blocks XXE and billion-laughs attacks. The extractor interface is ready for other formats such as PDF.
+3. **Deterministic rule engine.** Each rule is a pure function of the invoice and the tax tables. The table version in force is chosen by the invoice's **competence date**, so the same service is audited differently in 2026 and in 2027.
+4. **Auditable reports.** JSON and Excel list every rule checked per invoice: expected value, found value, status (`ok` / `divergent` / `not_applicable` / `error`), legal basis, and the exact table version applied.
+
+### Rules
+
+| Rule | What it checks |
+|---|---|
+| `ISS_RATE_RANGE` | ISS between 2% and 5% (LC 116/2003) |
+| `ISS_RATE_MUNICIPAL` | ISS rate matches the municipal table for the service |
+| `ISS_AMOUNT` | ISS = base × rate |
+| `IRRF_WITHHOLDING` | 1.5% / 1% by service type, R$ 10 waiver, Simples Nacional exemption |
+| `PIS/COFINS/CSLL_WITHHOLDING` | Lei 10.833/2003; **from 2027 only CSLL** (LC 214/2025) |
+| `IBS_CBS_BASE` | base net of ISS (and of PIS/COFINS in 2026) |
+| `CBS/IBS_STATE/IBS_MUNICIPAL_AMOUNT` | 2026 test rates; 2027 split; mandatory from Oct/2026 |
+
+Every table entry cites its legal basis and carries a `verified` flag. The **2027 CBS reference rate** has not been published by the Senate yet, so CBS checks for 2027 report `error` rather than guessing a value.
+
+## Quick start
+
+Requires [uv](https://docs.astral.sh/uv/).
+
+```bash
+uv sync
+uv run nfse-audit generate --out data/synthetic --random 20   # 16 scenarios + random + malformed
+uv run nfse-audit audit data/synthetic --out reports           # JSON + Excel report
+uv run nfse-audit validate data/synthetic/0*.xml               # official XSD v1.01
+uv run pytest                                                  # 143 tests
+```
+
+The HTTP API and the worker are implemented and covered by integration tests that use an in-memory Redis. Running the full stack with Docker Compose is in progress on the `wip/docker` branch.
+
+## Synthetic data
+
+- **CNPJs start with `SY`.** That is the alphanumeric CNPJ format, valid since July 2026, so these numbers cannot clash with a real numeric CNPJ.
+- **The demo municipality `9999999` does not exist.** It is used to demonstrate a rate change on 2027-01-01.
+- **Documents are unsigned** and marked as the test environment (`tpAmb=2`).
+- **Each scenario lists the rules it must flag** (`manifest.json`), and the test suite checks this end to end.
+
+## Official schemas
+
+The national NFS-e XSD v1.01 is vendored byte-for-byte, with provenance and hashes. Three adaptations are applied in memory, each documented in [`SOURCE.md`](src/nfse_audit/extraction/schemas/v1.01/SOURCE.md):
+
+- alphanumeric CNPJ;
+- signature made optional, for the unsigned synthetic documents;
+- a fix for an invalid `^…$` pattern in `TSSerieDPS`, which makes standards-conforming validators reject every series.
 
 ## Tech stack
 
-Python 3.12 · FastAPI · Redis · Pydantic v2 · pytest · Docker Compose
-
-## Data policy
-
-This repository contains **synthetic data only**. All invoices, CNPJs and company names are generated by the project's own test data generator. No real taxpayer data is ever committed.
-
-## Getting started
-
-_Coming soon._
+Python 3.12 · FastAPI · Redis + RQ · Pydantic v2 · lxml · openpyxl · pytest · uv · GitHub Actions
 
 ## Architecture decisions
 

@@ -69,6 +69,12 @@ uv run pytest                # todos os testes
 uv run pytest tests/unit     # só os testes unitários
 uv run ruff check .          # lint
 uv run ruff format .         # formatação
+
+uv run nfse-audit generate --out data/synthetic --random 20   # dados sintéticos
+uv run nfse-audit audit data/synthetic --out reports          # auditoria local (JSON + Excel)
+uv run nfse-audit validate data/synthetic/0*.xml              # valida no XSD oficial
 ```
 
-_(Mais comandos entram conforme o projeto evoluir: subir o ambiente, gerar dados sintéticos.)_
+## Estado atual
+
+Antes de começar qualquer trabalho, leia [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md): status de cada fase, próximos passos em ordem e observações de ambiente. Atualize esse arquivo ao final de cada fase.
