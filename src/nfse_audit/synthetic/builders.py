@@ -5,8 +5,8 @@ synthetic data is recognizable at a glance and cannot clash with a real numeric 
 The default invoice is fully compliant for competence 2026-03.
 """
 
-from datetime import date, datetime
-from decimal import Decimal
+from datetime import date, datetime, timedelta, timezone
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
 from nfse_audit.domain import (
@@ -26,6 +26,7 @@ from nfse_audit.domain.types import CENT
 
 SYNTHETIC_PREFIX = "SY"
 SYNTHETIC_MUNICIPALITY = "9999999"
+BRT = timezone(timedelta(hours=-3))
 
 
 def synthetic_cnpj(seq: int, branch: int = 1) -> str:
@@ -66,7 +67,9 @@ def make_iss(
     return IssInfo(
         base=base,
         rate=rate,
-        amount=Decimal(amount) if amount is not None else (base * rate).quantize(CENT),
+        amount=Decimal(amount)
+        if amount is not None
+        else (base * rate).quantize(CENT, rounding=ROUND_HALF_UP),
         withholding=withholding,
     )
 
@@ -87,7 +90,9 @@ def make_ibs_cbs(
 ) -> IbsCbsInfo:
     base = Decimal(base)
     rates = [Decimal(r) for r in (cbs_rate, ibs_state_rate, ibs_municipal_rate)]
-    cbs, ibs_state, ibs_mun = ((base * rate).quantize(CENT) for rate in rates)
+    cbs, ibs_state, ibs_mun = (
+        (base * rate).quantize(CENT, rounding=ROUND_HALF_UP) for rate in rates
+    )
     return IbsCbsInfo(
         base=base,
         cbs_rate=rates[0],
@@ -104,7 +109,7 @@ def make_invoice(**overrides: Any) -> Invoice:
     data: dict[str, Any] = {
         "access_key": "1" * 50,
         "number": "1",
-        "issued_at": datetime(2026, 3, 10, 9, 30),
+        "issued_at": datetime(2026, 3, 10, 9, 30, tzinfo=BRT),
         "competence_date": date(2026, 3, 1),
         "provider": make_provider(),
         "taker": make_taker(),

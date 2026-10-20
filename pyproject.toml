@@ -7,6 +7,7 @@ authors = [{ name = "Guilherme Scarpini", email = "guigabimry@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.155.0",
+    "lxml>=5",
     "openpyxl>=3.1",
     "pydantic>=2.11",
     "pydantic-settings>=2.16.1",
@@ -16,6 +17,9 @@ dependencies = [
     "rq>=2.12.0",
     "uvicorn[standard]>=0.54.0",
 ]
+
+[project.scripts]
+nfse-audit = "nfse_audit.cli:main"
 
 [dependency-groups]
 dev = [

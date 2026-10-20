@@ -11,3 +11,6 @@
 *.xlsx binary
 *.pdf binary
 *.png binary
+
+# Official schemas are kept byte-for-byte so their hashes match the published package
+src/nfse_audit/extraction/schemas/** -text

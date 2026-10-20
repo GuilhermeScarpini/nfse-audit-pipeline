@@ -44,7 +44,7 @@ class Provider(DomainModel):
 class Taker(DomainModel):
     cnpj: Cnpj
     name: str = Field(min_length=1)
-    municipality_code: MunicipalityCode
+    municipality_code: MunicipalityCode | None = None
 
 
 class Service(DomainModel):
