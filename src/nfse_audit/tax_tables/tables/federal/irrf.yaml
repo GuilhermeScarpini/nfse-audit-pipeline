@@ -1,0 +1,18 @@
+id: irrf
+description: IRRF withheld on services paid by legal entities
+versions:
+  - valid_from: 2026-01-01
+    legal_basis: "Decreto 9.580/2018 (RIR), arts. 714 e 716; dispensa até R$ 10: Lei 9.430/1996, art. 67"
+    verified: false
+    notes: >-
+      Rates and waiver confirmed in law. The mapping of RIR service categories to
+      LC 116 subitems is a simplification for this project and must be reviewed.
+    params:
+      min_amount: "10.00"
+      groups:
+        - name: professional_services
+          rate: "0.015"
+          subitems: ["01.01", "01.02", "04.01", "07.01", "17.01", "17.14", "17.19"]
+        - name: cleaning_security_labor
+          rate: "0.01"
+          subitems: ["07.10", "11.02", "17.05"]

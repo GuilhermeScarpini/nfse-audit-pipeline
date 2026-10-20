@@ -26,10 +26,10 @@ docker-compose.override.yml
 *.log
 
 # --- Runtime data and reports (never commit real invoices) ---
-data/*
-reports/*
-!data/.gitkeep
-!reports/.gitkeep
+/data/*
+/reports/*
+!/data/.gitkeep
+!/reports/.gitkeep
 
 # --- IDE / OS ---
 .vscode/

@@ -7,6 +7,7 @@ authors = [{ name = "Guilherme Scarpini", email = "guigabimry@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.11",
+    "pyyaml>=6",
 ]
 
 [dependency-groups]

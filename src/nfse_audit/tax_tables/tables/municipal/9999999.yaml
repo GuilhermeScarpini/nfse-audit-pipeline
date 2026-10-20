@@ -1,0 +1,37 @@
+# SYNTHETIC municipality: it does not exist (IBGE codes never start with 9).
+# Its only purpose is to demonstrate temporal versioning: the ISS rate for
+# subitem 01.05 changes from 2% to 2.5% on 2027-01-01.
+id: iss_9999999
+description: ISS rates of the synthetic municipality used in demos
+versions:
+  - valid_from: 2026-01-01
+    valid_to: 2026-12-31
+    legal_basis: "Synthetic data - no real law"
+    verified: true
+    params:
+      municipality_code: "9999999"
+      municipality_name: "Municipio Sintetico"
+      synthetic: true
+      rates:
+        "01.01": "0.02"
+        "01.02": "0.02"
+        "01.05": "0.02"
+        "07.10": "0.03"
+        "11.02": "0.05"
+        "17.01": "0.05"
+        "17.19": "0.05"
+  - valid_from: 2027-01-01
+    legal_basis: "Synthetic data - no real law"
+    verified: true
+    params:
+      municipality_code: "9999999"
+      municipality_name: "Municipio Sintetico"
+      synthetic: true
+      rates:
+        "01.01": "0.02"
+        "01.02": "0.02"
+        "01.05": "0.025"
+        "07.10": "0.03"
+        "11.02": "0.05"
+        "17.01": "0.05"
+        "17.19": "0.05"

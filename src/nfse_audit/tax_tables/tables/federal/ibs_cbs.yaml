@@ -1,0 +1,22 @@
+id: ibs_cbs
+description: IBS and CBS highlighted on the invoice (tax reform)
+versions:
+  - valid_from: 2026-01-01
+    valid_to: 2026-12-31
+    legal_basis: "LC 214/2025 (test year)"
+    verified: false
+    notes: "PROVISIONAL - pending confirmation."
+    params:
+      cbs_rate: "0.009"
+      ibs_state_rate: "0.001"
+      ibs_municipal_rate: "0"
+      mandatory: false
+  - valid_from: 2027-01-01
+    legal_basis: "LC 214/2025"
+    verified: false
+    notes: "PROVISIONAL - pending confirmation of the 2027 CBS reference rate."
+    params:
+      cbs_rate: "0.088"
+      ibs_state_rate: "0.0005"
+      ibs_municipal_rate: "0.0005"
+      mandatory: true

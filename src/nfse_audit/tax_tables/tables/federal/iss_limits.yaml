@@ -1,0 +1,11 @@
+id: iss_limits
+description: National minimum and maximum ISS rates
+versions:
+  - valid_from: 2026-01-01
+    legal_basis: "LC 116/2003, art. 8º, II (máx. 5%) e art. 8º-A (mín. 2%, incluído pela LC 157/2016)"
+    verified: true
+    notes: "ISS unchanged until 2028; the reform starts reducing it in 2029 (EC 132/2023)."
+    params:
+      min_rate: "0.02"
+      max_rate: "0.05"
+      below_min_allowed_subitems: ["07.02", "07.05", "16.01"]
