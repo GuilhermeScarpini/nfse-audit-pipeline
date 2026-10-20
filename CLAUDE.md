@@ -27,7 +27,7 @@ O dono do projeto quer velocidade **e** aprendizado. Portanto:
 - **No chat, seja breve:** ao fim de cada fase, um resumo curto e o link para o arquivo de aprendizado da fase.
 - **ADRs continuam obrigatórios** para decisões relevantes de arquitetura, em `docs/adr/` (formato abaixo). Esses vão para o GitHub.
 - **Aponte más práticas.** Se o usuário pedir algo que seja má prática, diga e explique, em vez de só obedecer.
-- **Idiomas.** Explicações, comentários, ADRs e `aprendizado/` em português; código, nomes de variáveis, nomes de arquivos, README e mensagens de commit em inglês.
+- **Idiomas.** Explicações, comentários, ADRs, README e `aprendizado/` em português (o público do projeto está no Brasil); código, nomes de variáveis, nomes de arquivos e mensagens de commit em inglês.
 
 ## Convenções do projeto
 
