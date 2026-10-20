@@ -6,6 +6,7 @@ readme = "README.md"
 authors = [{ name = "Guilherme Scarpini", email = "guigabimry@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
+    "openpyxl>=3.1",
     "pydantic>=2.11",
     "pyyaml>=6",
 ]
