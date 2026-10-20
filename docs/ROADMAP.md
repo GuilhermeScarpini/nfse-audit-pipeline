@@ -21,6 +21,7 @@ GET /batches/{id}/report?format=xlsx  → relatório Excel
 
 ## Decisões de escopo
 
+- **Reforma tributária:** competências de **2026 e 2027**. Em 2026, ano de teste de IBS/CBS, com PIS/COFINS vigentes; a partir de 2027, a CBS substitui PIS/COFINS. As regras são selecionadas pela data de competência da nota, e cada tabela cita sua base legal.
 - Status de cada regra: `ok`, `divergent`, `not_applicable`.
 - Regras federais com base legal real; ISS de poucos municípios reais com a lei citada, mais uma mudança de vigência **sintética e rotulada como tal** para demonstrar o versionamento.
 - Apenas dados sintéticos.
@@ -42,4 +43,4 @@ GET /batches/{id}/report?format=xlsx  → relatório Excel
 
 ## Fora do MVP
 
-Extração de PDF · IBS/CBS (LC 214/2025) · retenção de INSS · Postgres · autenticação · interface web · muitos municípios.
+Extração de PDF · reduções e regimes específicos de IBS/CBS · transição do ISS a partir de 2029 · retenção de INSS · Postgres · autenticação · interface web · muitos municípios.
