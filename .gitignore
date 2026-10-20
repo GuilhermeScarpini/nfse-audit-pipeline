@@ -1,0 +1,42 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.python-version
+
+# --- Testing / tooling ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Secrets (keep .env.example versioned) ---
+.env
+.env.*
+!.env.example
+
+# --- Docker ---
+docker-compose.override.yml
+*.log
+
+# --- Runtime data and reports (never commit real invoices) ---
+data/*
+reports/*
+!data/.gitkeep
+!reports/.gitkeep
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Claude Code local settings ---
+.claude/settings.local.json
