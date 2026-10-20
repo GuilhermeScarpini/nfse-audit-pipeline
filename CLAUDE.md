@@ -12,20 +12,22 @@ Instruções permanentes para o Claude Code neste repositório. Valem para todas
 - Relatórios auditáveis (JSON e Excel) por nota: regra, valor esperado, valor encontrado, status.
 - Apenas dados sintéticos, gerados pelo próprio projeto.
 
-## Modo didático (obrigatório)
+## Modo de trabalho: velocidade máxima + diário de aprendizado (obrigatório)
 
-O dono do projeto está usando este repositório para aprender. Portanto:
+O dono do projeto quer velocidade **e** aprendizado. Portanto:
 
-- **Explique antes de fazer.** Sempre diga o que vai fazer e por quê ANTES de executar.
-- **Conceitos novos primeiro.** Ao introduzir um conceito novo (ex.: fila assíncrona, idempotência, versionamento temporal, injeção de dependência no FastAPI), explique-o em poucas frases, com um exemplo concreto, antes de aplicá-lo.
-- **Decisões de arquitetura com alternativas.** Apresente as alternativas consideradas e o trade-off de cada uma. Registre decisões relevantes como ADRs em `docs/adr/` (formato abaixo).
-- **Passos pequenos.** Ao final de cada passo, faça um resumo curto:
-  1. O que foi feito.
-  2. O que eu deveria entender.
-  3. Como testar.
-- **Desafios.** De vez em quando, proponha um pequeno desafio (ex.: "tente escrever o teste para esta regra") em vez de fazer tudo sozinho.
-- **Aponte más práticas.** Se eu pedir algo que seja má prática, diga e explique, em vez de só obedecer.
-- **Idiomas.** Explicações e comentários em português; código, nomes de variáveis, nomes de arquivos e mensagens de commit em inglês.
+- **Execute direto.** Implemente fases inteiras sem parar a cada passo. Pare apenas para decisões que são genuinamente do usuário (escopo, preferência, custo) ou para ações arriscadas/irreversíveis.
+- **Todo o conteúdo didático vai para `aprendizado/`** (pasta local, no `.gitignore`, **nunca vai para o GitHub**). Um arquivo por fase: `aprendizado/fase-NN-nome.md`, indexados em `aprendizado/README.md`. Cada arquivo de fase contém:
+  1. **O que foi feito** — resumo do que entrou, com links para os arquivos.
+  2. **Conceitos** — cada conceito novo (ex.: fila assíncrona, idempotência, versionamento temporal, injeção de dependência no FastAPI) explicado em poucas frases, com um exemplo concreto do próprio projeto.
+  3. **Decisões e trade-offs** — alternativas consideradas e por que uma foi escolhida (com link para o ADR, se houver).
+  4. **Armadilhas encontradas** — erros e pegadinhas que apareceram durante a implementação e como foram resolvidos.
+  5. **Como testar** — comandos para o usuário rodar e o que esperar.
+  6. **Desafios opcionais** — 1 a 3 exercícios pequenos (ex.: "escreva o teste para esta regra") para o usuário fazer quando quiser.
+- **No chat, seja breve:** ao fim de cada fase, um resumo curto e o link para o arquivo de aprendizado da fase.
+- **ADRs continuam obrigatórios** para decisões relevantes de arquitetura, em `docs/adr/` (formato abaixo). Esses vão para o GitHub.
+- **Aponte más práticas.** Se o usuário pedir algo que seja má prática, diga e explique, em vez de só obedecer.
+- **Idiomas.** Explicações, comentários, ADRs e `aprendizado/` em português; código, nomes de variáveis, nomes de arquivos, README e mensagens de commit em inglês.
 
 ## Convenções do projeto
 
@@ -41,8 +43,9 @@ O dono do projeto está usando este repositório para aprender. Portanto:
 - **Toda regra tributária precisa de teste.** Nenhuma regra entra sem teste cobrindo pelo menos o caso conforme e o caso divergente.
 
 ### Commits
-- Commits pequenos e semânticos, seguindo [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `test:`, `docs:`, `chore:`, `refactor:`...).
-- Explique cada commit (o que entra e por quê) antes de fazê-lo.
+- Commits pequenos e semânticos, seguindo [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `test:`, `docs:`, `chore:`, `refactor:`, `ci:`...).
+- Registre no arquivo de aprendizado da fase quais commits foram feitos e por que foram separados assim.
+- Push para `origin/main` ao final de cada fase, com testes e lint passando.
 
 ### Dados e segredos
 - **NUNCA commitar dados reais**: nada de CNPJs, CPFs, nomes, razões sociais ou notas verdadeiras. Use apenas dados sintéticos gerados no próprio projeto.
@@ -60,4 +63,12 @@ Arquivos em `docs/adr/NNNN-titulo-curto.md` (ex.: `0001-use-redis-as-queue.md`),
 
 ## Comandos
 
-_(A preencher conforme o projeto evoluir: subir o ambiente, rodar testes, gerar dados sintéticos.)_
+```bash
+uv sync                      # cria/atualiza o .venv a partir do uv.lock
+uv run pytest                # todos os testes
+uv run pytest tests/unit     # só os testes unitários
+uv run ruff check .          # lint
+uv run ruff format .         # formatação
+```
+
+_(Mais comandos entram conforme o projeto evoluir: subir o ambiente, gerar dados sintéticos.)_

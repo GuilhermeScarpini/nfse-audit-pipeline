@@ -7,7 +7,6 @@ build/
 dist/
 .venv/
 venv/
-.python-version
 
 # --- Testing / tooling ---
 .pytest_cache/
@@ -40,3 +39,6 @@ Thumbs.db
 
 # --- Claude Code local settings ---
 .claude/settings.local.json
+
+# --- Personal learning notes (local only) ---
+aprendizado/
