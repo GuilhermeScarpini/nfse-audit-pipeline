@@ -44,7 +44,19 @@ uv run nfse-audit validate data/synthetic/0*.xml               # official XSD v1
 uv run pytest                                                  # 143 tests
 ```
 
-The HTTP API and the worker are implemented and covered by integration tests that use an in-memory Redis. Running the full stack with Docker Compose is in progress on the `wip/docker` branch.
+### Full stack with Docker Compose
+
+API + worker + Redis, with a shared volume for the batch documents:
+
+```bash
+docker compose up --build --wait                 # API on http://localhost:8000 (docs at /docs)
+curl -F "files=@data/synthetic/001-compliant-2026-consulting.xml" http://localhost:8000/batches
+curl http://localhost:8000/batches/<batch_id>                     # queued → processing → done
+curl -o audit.xlsx "http://localhost:8000/batches/<batch_id>/report?format=xlsx"
+./scripts/smoke-test.sh                          # end-to-end check, also run in CI
+```
+
+The image is multi-stage (uv only in the build stage) and runs as a non-root user. Behind a TLS-inspecting proxy, see [`docker-compose.override.example.yml`](docker-compose.override.example.yml).
 
 ## Synthetic data
 
@@ -63,7 +75,7 @@ The national NFS-e XSD v1.01 is vendored byte-for-byte, with provenance and hash
 
 ## Tech stack
 
-Python 3.12 · FastAPI · Redis + RQ · Pydantic v2 · lxml · openpyxl · pytest · uv · GitHub Actions
+Python 3.12 · FastAPI · Redis + RQ · Pydantic v2 · lxml · openpyxl · pytest · uv · Docker Compose · GitHub Actions
 
 ## Architecture decisions
 
