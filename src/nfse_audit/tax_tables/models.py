@@ -120,9 +120,20 @@ class FederalWithholding(Params):
     """Withholding is waived when the sum of the withheld taxes is at most this value."""
 
 
+BaseDeduction = Literal["iss", "pis", "cofins"]
+
+
 class IbsCbs(Params):
-    cbs_rate: Rate
+    cbs_rate: Rate | None
+    """None while the rate is not yet published (e.g. the 2027 CBS reference rate)."""
     ibs_state_rate: Rate
     ibs_municipal_rate: Rate
     mandatory: bool
     """Whether highlighting IBS/CBS on the invoice is mandatory in this period."""
+    optional_subitems: list[str] = []
+    """Subitems for which highlighting is still optional even when mandatory is true."""
+    base_deductions: list[BaseDeduction]
+    """Amounts subtracted from the service value to get the IBS/CBS base."""
+
+    def is_mandatory_for(self, subitem: str) -> bool:
+        return self.mandatory and subitem not in self.optional_subitems

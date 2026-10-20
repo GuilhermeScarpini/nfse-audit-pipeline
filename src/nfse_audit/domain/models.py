@@ -74,6 +74,13 @@ class FederalWithholdings(DomainModel):
     cofins: Money = Decimal("0.00")
 
 
+class PisCofinsInfo(DomainModel):
+    """PIS/COFINS of the operation (vPis/vCofins), withheld or not. Extinct from 2027."""
+
+    pis_amount: Money
+    cofins_amount: Money
+
+
 class IbsCbsInfo(DomainModel):
     """IBS and CBS highlighted on the invoice (tax reform, LC 214/2025)."""
 
@@ -101,4 +108,5 @@ class Invoice(DomainModel):
     service_amount: Money
     iss: IssInfo
     withholdings: FederalWithholdings = FederalWithholdings()
+    pis_cofins: PisCofinsInfo | None = None
     ibs_cbs: IbsCbsInfo | None = None

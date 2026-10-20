@@ -15,6 +15,7 @@ from nfse_audit.domain import (
     Invoice,
     IssInfo,
     IssWithholding,
+    PisCofinsInfo,
     Provider,
     Service,
     SimplesNacionalOption,
@@ -74,6 +75,10 @@ def make_withholdings(**amounts: str | Decimal) -> FederalWithholdings:
     return FederalWithholdings(**{name: Decimal(value) for name, value in amounts.items()})
 
 
+def make_pis_cofins(pis: str | Decimal, cofins: str | Decimal) -> PisCofinsInfo:
+    return PisCofinsInfo(pis_amount=Decimal(pis), cofins_amount=Decimal(cofins))
+
+
 def make_ibs_cbs(
     base: str | Decimal,
     cbs_rate: str | Decimal,
@@ -107,6 +112,7 @@ def make_invoice(**overrides: Any) -> Invoice:
         "service_amount": Decimal("1000.00"),
         "iss": make_iss(),
         "withholdings": make_withholdings(irrf="15.00", pis="6.50", cofins="30.00", csll="10.00"),
+        "pis_cofins": make_pis_cofins(pis="6.50", cofins="30.00"),
     }
     data.update(overrides)
     return Invoice(**data)

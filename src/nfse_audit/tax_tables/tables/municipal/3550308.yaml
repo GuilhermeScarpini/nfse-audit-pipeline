@@ -1,0 +1,19 @@
+id: iss_3550308
+description: ISS rates of Sao Paulo/SP for the subitems covered by this project
+versions:
+  - valid_from: 2026-01-01
+    legal_basis: "Lei Municipal 13.701/2003, art. 16 (item 1 na redação da Lei 18.066/2023)"
+    verified: true
+    notes: >-
+      Only a few subitems are modeled. 07.10 at 2% applies to cleaning, maintenance
+      and upkeep of buildings (art. 16, I, b); other 07.10 activities are taxed at 5%.
+      Source: compiled text at legislacao.prefeitura.sp.gov.br; later amendments may exist.
+    params:
+      municipality_code: "3550308"
+      municipality_name: "Sao Paulo"
+      rates:
+        "01.01": "0.029"
+        "01.02": "0.029"
+        "01.05": "0.029"
+        "07.10": "0.02"
+        "17.01": "0.05"

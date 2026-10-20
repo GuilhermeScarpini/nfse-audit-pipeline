@@ -2,10 +2,10 @@ id: irrf
 description: IRRF withheld on services paid by legal entities
 versions:
   - valid_from: 2026-01-01
-    legal_basis: "Decreto 9.580/2018 (RIR), arts. 714 e 716; dispensa até R$ 10: Lei 9.430/1996, art. 67"
+    legal_basis: "Decreto 9.580/2018 (RIR), arts. 714 e 716; dispensa até R$ 10: RIR art. 785 e Lei 9.430/1996, art. 67"
     verified: false
     notes: >-
-      Rates and waiver confirmed in law. The mapping of RIR service categories to
+      Rates and waiver confirmed in law; not changed by LC 214/2025. The mapping of RIR service categories to
       LC 116 subitems is a simplification for this project and must be reviewed.
     params:
       min_amount: "10.00"

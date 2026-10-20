@@ -19,6 +19,7 @@ def _version(valid_from, valid_to=None, cbs="0.009"):
             "ibs_state_rate": "0",
             "ibs_municipal_rate": "0",
             "mandatory": False,
+            "base_deductions": ["iss"],
         },
     }
 

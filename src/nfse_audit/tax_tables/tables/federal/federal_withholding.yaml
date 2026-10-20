@@ -5,7 +5,7 @@ versions:
     valid_to: 2026-12-31
     legal_basis: "Lei 10.833/2003, arts. 30 e 31 (dispensa até R$ 10: art. 31, § 3º)"
     verified: false
-    notes: "Mapping of art. 30 service categories to LC 116 subitems is simplified."
+    notes: "Rates and waiver confirmed in law. Mapping of art. 30 service categories to LC 116 subitems is simplified."
     params:
       rates:
         pis: "0.0065"
@@ -14,9 +14,12 @@ versions:
       subitems: ["01.01", "01.02", "04.01", "07.01", "07.10", "11.02", "14.01", "17.01", "17.05", "17.14", "17.19"]
       min_total: "10.00"
   - valid_from: 2027-01-01
-    legal_basis: "EC 132/2023 e LC 214/2025: PIS e COFINS extintos; CSLL mantida (Lei 10.833/2003, art. 30)"
+    legal_basis: "Lei 10.833/2003, arts. 30 e 31, na redação da LC 214/2025, art. 509 (vigência: art. 544, III)"
     verified: false
-    notes: "PROVISIONAL - pending confirmation of withholding rules from 2027."
+    notes: >-
+      Only CSLL (1%) is withheld from 2027. The R$ 10 waiver (art. 31, § 3º) is kept:
+      the amendment does not rewrite it and art. 542 revokes only § 1º (inference from
+      the amending technique). Subitem mapping is simplified.
     params:
       rates:
         csll: "0.01"

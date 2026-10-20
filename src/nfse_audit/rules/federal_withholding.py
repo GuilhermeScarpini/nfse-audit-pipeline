@@ -18,7 +18,7 @@ from nfse_audit.rules.base import (
 from nfse_audit.tax_tables import TaxTables
 from nfse_audit.tax_tables.models import WithheldTax
 
-SIMPLES_BASIS = "Lei 10.833/2003, art. 32, II (sem retenção para optantes do Simples Nacional)"
+SIMPLES_BASIS = "Lei 10.833/2003, art. 32, III (sem retenção para optantes do Simples Nacional)"
 TABLE_ID = "federal_withholding"
 
 
