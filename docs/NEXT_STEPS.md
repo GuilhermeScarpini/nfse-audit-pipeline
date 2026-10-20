@@ -15,9 +15,9 @@ _Atualizado em 2026-10-20._
 | 6 — Relatórios e CLI | ✅ | JSON, Excel, `nfse-audit generate / audit / validate` |
 | 7 — API, fila e worker | ✅ | testado com Redis em memória; [ADR-0004](adr/0004-async-batch-processing-with-rq.md) |
 | 8 — Docker Compose | ✅ | imagem multi-stage, api + worker + redis, teste de fumaça no CI; [ADR-0005](adr/0005-container-image-and-compose-stack.md) |
-| 9 — Portfólio | ⬜ | ainda não começou |
+| 9 — Portfólio | ✅ | README para recrutadores, licença MIT, imagens por digest, Dependabot, gitleaks no CI, repositório público |
 
-Hoje há 143 testes passando, localmente e no CI, e o CI sobe a stack Docker e roda `scripts/smoke-test.sh`.
+Hoje há 192 testes passando. O CI roda lint, testes, o teste de fumaça da stack Docker e o gitleaks em todo o histórico.
 
 ## Como retomar uma sessão
 
@@ -57,15 +57,10 @@ Esse é o melhor exemplo do versionamento temporal: a mudança de lei é uma alt
 - **Simples Nacional:** a NT 009 traz o grupo `gTribSN`, com IBS/CBS do Simples a partir de 2027. Hoje as regras de IBS/CBS retornam `not_applicable` para o Simples.
 - **Ato Conjunto RFB/CGIBS 4/2026:** outras categorias com obrigatoriedade em 01/12/2026 (plataformas digitais, condomínios, locações) não estão modeladas.
 
-### 4. Fase 9 — Portfólio
+### 4. Vitrine do portfólio (opcional)
 
-- Varredura de segredos em todo o histórico: `gitleaks detect --source . --log-opts="--all"`.
-- Fixar as imagens base por digest e ativar o Dependabot (pip, Docker e GitHub Actions).
-- Diagrama de arquitetura no README e um GIF ou passo a passo da demo com Docker.
-- Revisão final e só então tornar o repositório público:
-  ```bash
-  gh repo edit --visibility public --accept-visibility-change-consequences
-  ```
+- Um GIF curto da demo (upload pelo `/docs` e o Excel aberto) no topo do README.
+- Descrição e tópicos do repositório no GitHub já configurados; fixar o repositório no perfil.
 
 ### 5. Depois do MVP
 
