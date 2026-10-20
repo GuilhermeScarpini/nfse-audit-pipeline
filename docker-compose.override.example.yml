@@ -1,0 +1,22 @@
+# Building behind a TLS-inspecting proxy.
+#
+# 1. Save the proxy's root CA as Base-64 (.crt/.pem) as extra-ca.crt here
+#    (*.crt is git-ignored and docker-ignored).
+# 2. cp docker-compose.override.example.yml docker-compose.override.yml
+#    (the override file is git-ignored; Compose loads it automatically).
+# 3. docker compose up --build --wait
+#
+# The CA is passed as a build secret: it is used during the build and is not
+# stored in any image layer.
+
+services:
+  api:
+    build:
+      secrets: [extra_ca]
+  worker:
+    build:
+      secrets: [extra_ca]
+
+secrets:
+  extra_ca:
+    file: ./extra-ca.crt

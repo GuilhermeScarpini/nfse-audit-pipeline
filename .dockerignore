@@ -1,0 +1,15 @@
+# Only what the image needs goes into the build context: pyproject, lock, README, src.
+*
+!pyproject.toml
+!uv.lock
+!README.md
+!src/
+
+# Even inside src: never ship caches, certificates or secrets
+**/__pycache__/
+**/*.py[cod]
+**/*.crt
+**/*.pem
+**/*.cer
+**/*.key
+**/.env

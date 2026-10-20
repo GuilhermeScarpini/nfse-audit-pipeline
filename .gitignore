@@ -21,6 +21,12 @@ htmlcov/
 .env.*
 !.env.example
 
+# Certificates (e.g. a custom CA used for Docker builds) never go to git
+*.crt
+*.pem
+*.cer
+*.key
+
 # --- Docker ---
 docker-compose.override.yml
 *.log

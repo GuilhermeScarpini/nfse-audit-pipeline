@@ -1,0 +1,55 @@
+# Full stack: API + worker + Redis.
+#   docker compose up --build --wait
+#   ./scripts/smoke-test.sh
+# Behind a TLS-inspecting proxy, see docker-compose.override.example.yml.
+
+name: nfse-audit
+
+x-app: &app
+  build: .
+  image: nfse-audit:local
+  environment:
+    REDIS_URL: redis://redis:6379/0
+    DATA_DIR: /data
+    LOG_LEVEL: ${LOG_LEVEL:-INFO}
+  # Claim check: the API writes the documents here, the worker reads them.
+  volumes:
+    - batches:/data
+  depends_on:
+    redis:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  api:
+    <<: *app
+    ports:
+      - "127.0.0.1:8000:8000"  # localhost only: the API has no authentication yet
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+
+  worker:
+    <<: *app
+    # --with-scheduler: RQ needs it to run the delayed retries (10 s, 30 s, 60 s).
+    command: ["rq", "worker", "--with-scheduler", "--url", "redis://redis:6379/0", "audits"]
+
+  redis:
+    image: redis:8.2-alpine
+    # Append-only file: batch status survives a Redis restart.
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  batches:
+  redis-data:
